@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Dashboard - Traffic Violation System</title>{% endblock %}
+
+{% block Content %}
+
+<!-- Main Content -->
+<div class="main-content">
+    <h2 class="mb-4">Traffic Violation Dashboard</h2>
+
+    <div class="card p-4">
+        <h5 class="mb-3">All Violations</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Offender Name</th>
+                        <th>Plate Number</th>
+                        <th>Offense</th>
+                        <th>Fine</th>
+                        <th>Status</th>
+                        <th>Date Reported</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in violations %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ v.offender.full_name }}</td>
+                        <td>{{ v.offender.plate_number }}</td>
+                        <td>{{ v.offense_type }}</td>
+                        <td>₦{{ v.fine_amount|floatformat:2 }}</td>
+                        <td>
+                            {% if v.status %}
+                                <span class="badge bg-success">Paid</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Unpaid</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ v.date_reported|date:"M d, Y H:i" }}</td>
+                        <td>
+                            <a href="{% url 'ticket_detail' v.ticket_id %}" class="btn btn-sm btn-primary">View</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="8" class="text-center">No violations reported yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

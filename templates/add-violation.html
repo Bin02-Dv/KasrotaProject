@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Add Violation - KASROTA</title>{% endblock %}
+
+
+{% block Content %}
+<style>
+    body {
+        background-color: #f9fafb;
+    }
+
+    .form-container {
+        max-width: 700px;
+        background-color: #ffffff;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-title {
+        margin-bottom: 2rem;
+        font-weight: 700;
+        color: #111827;
+    }
+
+    .btn-primary {
+        background-color: #2563eb;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #1d4ed8;
+    }
+
+    .back-link {
+        margin-top: 1rem;
+        display: block;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h3 class="form-title text-center">Report New Violation</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="full_name" class="form-label">Offender Full Name</label>
+                <input type="text" class="form-control" name="full_name" id="full_name" required>
+            </div>
+            <div class="mb-3">
+                <label for="plate_number" class="form-label">Plate Number</label>
+                <input type="text" class="form-control" name="plate_number" id="plate_number" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" name="phone_number" id="phone_number" required>
+            </div>
+            <div class="mb-3">
+                <label for="offense_type" class="form-label">Offense Type</label>
+                <textarea class="form-control" name="offense_type" id="offense_type" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Violation Location</label>
+                <textarea class="form-control" name="location" id="location" rows="2" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="fine_amount" class="form-label">Fine Amount (₦)</label>
+                <input type="number" class="form-control" name="fine_amount" id="fine_amount" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit Violation</button>
+        </form>
+
+        <a href="/dash/" class="back-link text-muted">← Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
