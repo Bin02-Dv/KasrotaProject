@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Offender, Violation
 import uuid
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 
 # from twilio.rest import Client
@@ -10,15 +10,19 @@ from django.conf import settings
 
 # Create your views here.
 
+def logout(request):
+    auth.logout(request)
+    return redirect('/login/')
+
 
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(request, username=username, password=password)
+        user = auth.authenticate(username=username, password=password)
         if user is not None:
-            login(request, user)
+            auth.login(request, user)
             return redirect('dash')
         else:
             messages.error(request, 'Invalid username or password')
@@ -26,7 +30,8 @@ def login(request):
 
 @login_required(login_url='/login/')
 def dash(request):
-    return render(request, 'dash.html')
+    violations = Violation.objects.select_related('offender').order_by('-date_reported')
+    return render(request, 'dash.html', {'violations': violations})
 
 @login_required(login_url='/login/')
 def add_violation(request):
@@ -119,3 +124,9 @@ def landing_page(request):
             ticket = Violation.objects.filter(offender__plate_number=plate_number).first()
 
     return render(request, 'search.html', {'ticket': ticket})
+
+def update_status(request, id):
+    violation_id = Violation.objects.get(id=id)
+    violation_id.status = True
+    violation_id.save()
+    return redirect("/dash/")

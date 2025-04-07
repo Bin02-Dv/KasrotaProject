@@ -40,9 +40,15 @@
                             {% endif %}
                         </td>
                         <td>{{ v.date_reported|date:"M d, Y H:i" }}</td>
+                        {% if not v.status %}
                         <td>
-                            <a href="{% url 'ticket_detail' v.ticket_id %}" class="btn btn-sm btn-primary">View</a>
+                            <a href="/update-status/{{v.id}}" class="btn btn-sm btn-primary">Update</a>
                         </td>
+                        {% else %}
+                        <td disabled>
+                            <a href="#" style="opacity: .2;" class="btn btn-sm btn-primary">Update</a>
+                        </td>
+                        {% endif %}
                     </tr>
                     {% empty %}
                     <tr><td colspan="8" class="text-center">No violations reported yet.</td></tr>

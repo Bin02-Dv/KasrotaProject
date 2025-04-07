@@ -53,10 +53,10 @@
   <div class="container">
     <div class="form-container">
       <h3 class="form-title text-center">Check Your Ticket Status</h3>
-      <form method="GET" action="">
+      <form method="GET">
         <div class="mb-3">
-          <label for="ticket_id" class="form-label">Ticket ID</label>
-          <input type="text" name="ticket_id" id="ticket_id" class="form-control" placeholder="Enter Ticket ID" required>
+          {% comment %} <label for="ticket_id" class="form-label">Ticket ID</label> {% endcomment %}
+          {% comment %} <input type="text" name="ticket_id" id="ticket_id" class="form-control" placeholder="Enter Ticket ID" required> {% endcomment %}
         </div>
         <div class="mb-3">
           <label for="plate_number" class="form-label">Plate Number</label>
@@ -73,9 +73,18 @@
         <p><strong>Offense Type:</strong> {{ ticket.offense_type }}</p>
         <p><strong>Location:</strong> {{ ticket.location }}</p>
         <p><strong>Fine Amount:</strong> ₦{{ ticket.fine_amount }}</p>
+        <p><strong>Date:</strong> {{ ticket.date_reported|date:"M d, Y H:i" }}</p>
         <p class="ticket-status {% if ticket.status %}paid{% else %}unpaid{% endif %}">
           <strong>Status: </strong> {% if ticket.status %}Paid{% else %}Unpaid{% endif %}
         </p>
+        {% if not ticket.status %}
+        <p class="ticket-status {% if ticket.status %}paid{% else %}unpaid{% endif %}">
+          <strong>Description: </strong> You haven't pay your due yet! Pay into the below account details, KASROTA will check the payment and update your status: <br>
+          <strong>Bank Name: </strong> Union Bank <br>
+          <strong>Account Name: </strong> KASROTA - LTD <br>
+          <strong>Account Number: </strong> 22435436644
+        </p>
+        {% endif %}
       </div>
       {% endif %}
     </div>

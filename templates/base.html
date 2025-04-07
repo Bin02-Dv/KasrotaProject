@@ -70,11 +70,8 @@
         <h4>KASROTA</h4>
         <a href="/dash/" class="active">Dashboard</a>
         <a href="/add-violation/">Add Violation</a>
-        <a href="">Search Ticket</a>
-        <form method="POST" action="">
-            {% csrf_token %}
-            <button type="submit" class="btn logout-btn w-100 mt-4">Logout</button>
-        </form>
+        <a href="/">Search Ticket</a>
+        <a href="/logout/" class="logout-btn">Logout</a>
     </div>
 
     {% block Content %}{% endblock %}
