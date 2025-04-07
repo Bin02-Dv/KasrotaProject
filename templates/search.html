@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Check Ticket Status - KASROTA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9fafb;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 5rem auto;
+      background: #ffffff;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    .form-title {
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #111827;
+    }
+    .btn-primary {
+      background-color: #2563eb;
+      border-color: #2563eb;
+    }
+    .btn-primary:hover {
+      background-color: #1e40af;
+    }
+    .ticket-info {
+      margin-top: 2rem;
+      border-top: 2px solid #ddd;
+      padding-top: 1rem;
+    }
+    .ticket-status {
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    .ticket-status.paid {
+      color: #16a34a;
+    }
+    .ticket-status.unpaid {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="form-container">
+      <h3 class="form-title text-center">Check Your Ticket Status</h3>
+      <form method="GET" action="">
+        <div class="mb-3">
+          <label for="ticket_id" class="form-label">Ticket ID</label>
+          <input type="text" name="ticket_id" id="ticket_id" class="form-control" placeholder="Enter Ticket ID" required>
+        </div>
+        <div class="mb-3">
+          <label for="plate_number" class="form-label">Plate Number</label>
+          <input type="text" name="plate_number" id="plate_number" class="form-control" placeholder="Enter Plate Number" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Search Ticket</button>
+      </form>
+
+      {% if ticket %}
+      <div class="ticket-info">
+        <h4>Ticket Information:</h4>
+        <p><strong>Offender Name:</strong> {{ ticket.offender.full_name }}</p>
+        <p><strong>Plate Number:</strong> {{ ticket.offender.plate_number }}</p>
+        <p><strong>Offense Type:</strong> {{ ticket.offense_type }}</p>
+        <p><strong>Location:</strong> {{ ticket.location }}</p>
+        <p><strong>Fine Amount:</strong> ₦{{ ticket.fine_amount }}</p>
+        <p class="ticket-status {% if ticket.status %}paid{% else %}unpaid{% endif %}">
+          <strong>Status: </strong> {% if ticket.status %}Paid{% else %}Unpaid{% endif %}
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

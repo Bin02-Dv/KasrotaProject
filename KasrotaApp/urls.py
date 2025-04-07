@@ -5,4 +5,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('dash/', views.dash, name='dash'),
     path('add-violation/', views.add_violation, name='add-violation'),
+    path('', views.landing_page, name='landing-page'),
 ]
